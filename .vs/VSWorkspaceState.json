@@ -1,14 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Module3WebApi",
-    "\\Module3WebApi\\Model",
-    "\\Module3WebApi\\Model\\Domain",
-    "\\Module3WebApi\\Model\\DTOs",
-    "\\Module3WebApi\\Model\\DTOs\\CharacterDTO",
-    "\\Module3WebApi\\Model\\DTOs\\FranchiceDTO",
-    "\\Module3WebApi\\Model\\DTOs\\MovieDTO"
+    ""
   ],
-  "SelectedNode": "\\Module3WebApi\\Model\\DTOs\\MovieDTO",
+  "SelectedNode": "\\Module3WebApi.sln",
   "PreviewInSolutionExplorer": false
 }
