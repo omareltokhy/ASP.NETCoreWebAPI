@@ -12,6 +12,5 @@ namespace Module3WebApi.Model.DTOs.CharacterDTO
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-        public int Movie { get; set; }
     }
 }

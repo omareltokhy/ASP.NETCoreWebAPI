@@ -29,7 +29,6 @@ namespace Module3WebApi.Controllers
         public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharacters()
         {
             return _mapper.Map<List<CharacterReadDTO>>(await _context.Characters.ToListAsync());
-
         }
 
         // GET: api/Characters/5
@@ -80,12 +79,13 @@ namespace Module3WebApi.Controllers
         // POST: api/Characters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Character>> PostCharacter(Character character)
+        public async Task<ActionResult<Character>> PostCharacter(CharacterCreateDTO dtoCharacter)
         {
-            _context.Characters.Add(character);
+            Character domainCharacter = _mapper.Map<Character>(dtoCharacter);
+            _context.Characters.Add(domainCharacter);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCharacter", new { id = character.Id }, character);
+            return CreatedAtAction("GetCharacter", new { id = domainCharacter.Id }, domainCharacter);
         }
 
         // DELETE: api/Characters/5

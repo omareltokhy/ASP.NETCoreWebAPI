@@ -32,14 +32,13 @@ namespace Module3WebApi.Controllers
                 .Include(c => c.Characters)
                 .Include(c => c.Franchise)
                 .ToListAsync());
-
         }
 
-        // GET: api/Movies/5
+        // GET: api/Movie/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieReadDTO>> GetMovie(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            Movie movie = await _context.Movies.FindAsync(id);
 
             if (movie == null)
             {
@@ -48,7 +47,7 @@ namespace Module3WebApi.Controllers
 
             return _mapper.Map<MovieReadDTO>(movie);
         }
-
+    
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -78,7 +77,7 @@ namespace Module3WebApi.Controllers
 
             return NoContent();
         }
-
+        
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
