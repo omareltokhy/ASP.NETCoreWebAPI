@@ -17,11 +17,16 @@ namespace Module3WebApi.Profiles
                     .ForMember(adto => adto.Franchise, opt => opt
                     .MapFrom(a => a.FranchiseId))
                     .ForMember(adto => adto.Characters, opt => opt
-                    .MapFrom(a => a.Characters.Select(a => a.Id).ToArray()));
+                    .MapFrom(a => a.Characters.Select(a => a.Id).ToArray()))
+                    .ReverseMap();
             // Movie<->MovieCreateDTO
             CreateMap<Movie, MovieCreateDTO>();
-            // Movie<->MovieUpdateDTO
-            CreateMap<Movie, MovieUpdateDTO>();
+            //.ReverseMap();
+            //Movie <->MovieUpdateDTO
+            CreateMap<Movie, MovieUpdateDTO>()
+                .ForMember(adto => adto.Franchise, opt => opt
+                 .MapFrom(a => a.FranchiseId))
+                .ReverseMap();
         }
 
     }

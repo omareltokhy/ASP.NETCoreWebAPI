@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ville.hotakainen\\weekly\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj": {}
+    "C:\\Users\\omar.el.tokhy\\Assignments\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ville.hotakainen\\weekly\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj": {
+    "C:\\Users\\omar.el.tokhy\\Assignments\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ville.hotakainen\\weekly\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj",
+        "projectUniqueName": "C:\\Users\\omar.el.tokhy\\Assignments\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj",
         "projectName": "Module3WebApi",
-        "projectPath": "C:\\Users\\ville.hotakainen\\weekly\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj",
-        "packagesPath": "C:\\Users\\ville.hotakainen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ville.hotakainen\\weekly\\module_3_create_web_api\\Module3WebApi\\obj\\",
+        "projectPath": "C:\\Users\\omar.el.tokhy\\Assignments\\module_3_create_web_api\\Module3WebApi\\Module3WebApi.csproj",
+        "packagesPath": "C:\\Users\\omar.el.tokhy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\omar.el.tokhy\\Assignments\\module_3_create_web_api\\Module3WebApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ville.hotakainen\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\omar.el.tokhy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -60,13 +56,13 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.8, )"
+              "version": "[5.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[5.0.8, )"
+              "version": "[5.0.9, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -74,7 +70,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[5.6.3, )"
+              "version": "[6.2.1, )"
             }
           },
           "imports": [

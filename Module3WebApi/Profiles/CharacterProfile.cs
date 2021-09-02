@@ -13,21 +13,14 @@ namespace Module3WebApi.Profiles
         public CharacterProfile()
         {
             // Character<->CharacterReadDTO
-            CreateMap<Character, CharacterReadDTO>();
-                    //.ForMember(adto => adto.Movie, opt => opt
-                    ////.MapFrom(a => a.Id))
-                    //.MapFrom(a => a.Movies.Select(a => a.Id).ToArray()))
-                    //.ReverseMap();
+            CreateMap<Character, CharacterReadDTO>()
+            .ReverseMap();
             // Character<->CharacterCreateDTO
-            CreateMap<Character, CharacterCreateDTO>();
-            //.ForMember(adto => adto.Movies, opt => opt
-            //.MapFrom(a => a.Id))
-            //.ReverseMap();
+            CreateMap<Character, CharacterCreateDTO>()
+            .ReverseMap();
             // Character<->CharacterUpdateDTO
-            CreateMap<Character, CharacterUpdateDTO>();
-                    //.ForMember(adto => adto.Movie, opt => opt
-                    //.MapFrom(a => a.Id))
-                    //.ReverseMap();
+            CreateMap<Character, CharacterUpdateDTO>()
+                    .ReverseMap();
 
         }
 

@@ -9,5 +9,6 @@ namespace Module3WebApi.Model.DTOs.FranchiceDTO
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        //public List<int> Movies { get; set; }
     }
 }

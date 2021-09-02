@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Module3WebApi.Model;
+using Module3WebApi.Model.DTOs.CharacterDTO;
 using Module3WebApi.Model.DTOs.FranchiceDTO;
+using Module3WebApi.Model.DTOs.MovieDTO;
 
 namespace Module3WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class FranchisesController : ControllerBase
     {
         private readonly MoviesDbContext _context;
@@ -43,6 +49,40 @@ namespace Module3WebApi.Controllers
             }
 
             return _mapper.Map<FranchiseReadDTO>(franchise);
+        }
+
+        [HttpGet("{id}/movie")]
+        public async Task<ActionResult<IEnumerable<MovieReadDTO>>> GetMoviesInAFranchise(int id)
+        {
+            if (!FranchiseExists(id))
+            {
+                return NotFound();
+            }
+
+            Franchise moviesInFranchise = await _context.Franchises
+                 .Include(c => c.Movies)
+                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            return _mapper.Map<List<MovieReadDTO>>(moviesInFranchise.Movies);
+        }
+
+        [HttpGet("{id}/characters")]
+        public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharactersInAFranchise(int id)
+        {
+            if (!FranchiseExists(id))
+            {
+                return NotFound();
+            }
+
+            Franchise moviesInFranchise = await _context.Franchises
+                 .Include(c => c.Movies)
+                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            Movie charactersInFranchise = await _context.Movies
+                 .Include(c => c.Characters)
+                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            return _mapper.Map<List<CharacterReadDTO>>(charactersInFranchise.Characters);  
         }
 
         // PUT: api/Franchises/5
@@ -76,15 +116,53 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}/updateMovies")]
+        public async Task<IActionResult> UpdateFranchiseMovies(int id, List<int> movies)
+        {
+            if (!FranchiseExists(id))
+            {
+                return NotFound();
+            }
+
+            // May want to place this in a service - controller is getting bloated
+            Franchise franchiseToUpdateMovies = await _context.Franchises
+                .Include(c => c.Movies)
+                .Where(c => c.Id == id)
+                .FirstAsync();
+
+            // Loop through certificates, try and assign to coach
+            // Trying to see if there is a nicer way of doing this, dont like the multiple calls
+            List<Movie> movs = new();
+            foreach (int movId in movies)
+            {
+                Movie mov = await _context.Movies.FindAsync(movId);
+                if (movs == null)
+                    return BadRequest("Character doesnt exist!");
+                movs.Add(mov);
+            }
+            franchiseToUpdateMovies.Movies = movs;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Franchises
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Franchise>> PostFranchise(Franchise franchise)
+        public async Task<ActionResult<Franchise>> PostFranchise(FranchiseCreateDTO dtoFranchise)
         {
-            _context.Franchises.Add(franchise);
+            Franchise domainFranchise = _mapper.Map<Franchise>(dtoFranchise);
+            _context.Franchises.Add(domainFranchise);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFranchise", new { id = franchise.Id }, franchise);
+            return CreatedAtAction("GetFranchise", new { id = domainFranchise.Id }, dtoFranchise);
         }
 
         // DELETE: api/Franchises/5

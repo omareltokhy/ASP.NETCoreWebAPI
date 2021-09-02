@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Module3WebApi",
+    "\\Module3WebApi\\Controllers"
   ],
-  "SelectedNode": "\\Module3WebApi.sln",
+  "SelectedNode": "\\Module3WebApi\\Controllers\\MoviesController.cs",
   "PreviewInSolutionExplorer": false
 }

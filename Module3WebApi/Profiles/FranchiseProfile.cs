@@ -18,6 +18,9 @@ namespace Module3WebApi.Profiles
             // Franchise<->FranchiseCreateDTO
             CreateMap<Franchise, FranchiseCreateDTO>()
                     .ReverseMap();
+            // Franchise<->FranchiseUpdateDTO
+            CreateMap<Franchise, FranchiseUpdateDTO>()
+                   .ReverseMap();
         }
     }
 }
