@@ -28,9 +28,14 @@ namespace Module3WebApi.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Movie>> GetAllMoviesAsync()
+        public async Task<IEnumerable<Character>> GetAllCharactersInMovieAsync(int id)
         {
-            throw new NotImplementedException();
+            return (IEnumerable<Character>)await _context.Movies.Include(c => c.Characters).FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
+        {
+            return await _context.Movies.ToListAsync();
         }
 
         public async Task<Movie> GetSpecificMovieAsync(int id)

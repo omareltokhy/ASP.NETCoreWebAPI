@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Module3WebApi.Model;
+using Module3WebApi.Model.DTOs.CharacterDTO;
 using Module3WebApi.Model.DTOs.MovieDTO;
 using Module3WebApi.Services;
 
@@ -43,6 +44,18 @@ namespace Module3WebApi.Controllers
                 return NotFound();
             }
             return _mapper.Map<MovieReadDTO>(movie);
+        }
+        [HttpGet("{id}/character")]
+        public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharactersInAMovie(int id)
+        {
+            Character characterInMovie = (Character)await _movieService.GetAllCharactersInMovieAsync(id);
+            
+            if (!_movieService.MovieExists(id))
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<CharacterReadDTO>>(characterInMovie);
         }
 
         // PUT: api/MoviesV2/5
