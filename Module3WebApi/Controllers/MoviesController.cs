@@ -29,7 +29,10 @@ namespace Module3WebApi.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Movies
+        /// <summary>
+        /// Get all movies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieReadDTO>>> GetMovies()
         {
@@ -39,7 +42,11 @@ namespace Module3WebApi.Controllers
                 .ToListAsync());
         }
 
-        // GET: api/Movie/5
+        /// <summary>
+        /// Get a movie by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieReadDTO>> GetMovie(int id)
         {
@@ -53,6 +60,11 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<MovieReadDTO>(movie);
         }
 
+        /// <summary>
+        /// Get all characters in a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/character")]
         public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharactersInAMovie(int id)
         {
@@ -68,9 +80,12 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<List<CharacterReadDTO>>(charactersInMovie.Characters);
         }
 
-        // PUT: api/Movies/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        
+        /// <summary>
+        /// Update a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dtoMovie"></param>
+        /// <returns></returns>     
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(int id, MovieUpdateDTO dtoMovie)
         {
@@ -99,7 +114,12 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-        
+        /// <summary>
+        /// Update characters in a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="characters"></param>
+        /// <returns></returns>
         [HttpPut("{id}/updateCharacters")]
         public async Task<IActionResult> UpdateMovieCharacters(int id, List<int> characters)
         {
@@ -108,14 +128,11 @@ namespace Module3WebApi.Controllers
                 return NotFound();
             }
 
-            // May want to place this in a service - controller is getting bloated
             Movie movieToUpdateCharacters = await _context.Movies
                 .Include(c => c.Characters)
                 .Where(c => c.Id == id)
                 .FirstAsync();
 
-            // Loop through certificates, try and assign to coach
-            // Trying to see if there is a nicer way of doing this, dont like the multiple calls
             List<Character> chars = new();
             foreach (int charId in characters)
             {
@@ -138,8 +155,11 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-            // POST: api/Movies
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a movie
+        /// </summary>
+        /// <param name="dtoMovie"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(MovieCreateDTO dtoMovie)
         {
@@ -153,7 +173,11 @@ namespace Module3WebApi.Controllers
         }
 
 
-        // DELETE: api/Movies/5
+        /// <summary>
+        /// Delete a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(int id)
         {

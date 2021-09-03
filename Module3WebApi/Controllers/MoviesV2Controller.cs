@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +16,9 @@ namespace Module3WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class MoviesV2Controller : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -26,14 +30,21 @@ namespace Module3WebApi.Controllers
             _movieService = movieService;
         }
 
-        // GET: api/MoviesV2
+        /// <summary>
+        /// Get all the movies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieReadDTO>>> GetMovies()
         {
             return _mapper.Map<List<MovieReadDTO>>(await _movieService.GetAllMoviesAsync());
         }
 
-        // GET: api/MoviesV2/5
+        /// <summary>
+        /// Get a movie by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieReadDTO>> GetMovie(int id)
         {
@@ -45,6 +56,12 @@ namespace Module3WebApi.Controllers
             }
             return _mapper.Map<MovieReadDTO>(movie);
         }
+
+        /// <summary>
+        /// Get all characters in a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/character")]
         public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharactersInAMovie(int id)
         {
@@ -58,8 +75,12 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<List<CharacterReadDTO>>(characterInMovie);
         }
 
-        // PUT: api/MoviesV2/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dtoMovie"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(int id, MovieUpdateDTO dtoMovie)
         {
@@ -79,8 +100,11 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/MoviesV2
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a new movie
+        /// </summary>
+        /// <param name="dtoMovie"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(MovieCreateDTO dtoMovie)
         {
@@ -90,7 +114,11 @@ namespace Module3WebApi.Controllers
             return CreatedAtAction("GetMovie", new { id = domainMovie.Id }, _mapper.Map<MovieReadDTO>(domainMovie));
         }
 
-        // DELETE: api/MoviesV2/5
+        /// <summary>
+        /// Delete a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(int id)
         {
@@ -101,7 +129,13 @@ namespace Module3WebApi.Controllers
             await _movieService.DeleteMovieAsync(id);
             return NoContent();
         }
-        // PUT: api/MoviesV2/characters
+        
+        /// <summary>
+        /// Update characters in a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="characters"></param>
+        /// <returns></returns>
         [HttpPut("{id}/characters")]
         public async Task<IActionResult> UpdateMovieCharacters(int id, List<int> characters)
         {

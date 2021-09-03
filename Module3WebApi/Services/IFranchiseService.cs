@@ -10,7 +10,7 @@ namespace Module3WebApi.Services
     {
         public Task<IEnumerable<Franchise>> GetAllFranchisesAsync();
         public Task<Franchise> GetSpecificFranchiseAsync(int id);
-        public Task<IEnumerable<Franchise>> GetAllMoviesInFranchiseAsync(int id);
+        public Task<IEnumerable<Movie>> GetAllMoviesInFranchiseAsync(int id);
         public Task<IEnumerable<Franchise>> GetAllCharactersInFranchiseAsync(int id);
         public Task<Franchise> AddFranchiseAsync(Franchise franchise);
         public Task UpdateFranchiseAsync(Franchise franchise);

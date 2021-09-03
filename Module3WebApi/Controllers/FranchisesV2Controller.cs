@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,9 @@ namespace Module3WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class FranchisesV2Controller : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -25,14 +29,21 @@ namespace Module3WebApi.Controllers
             _franchiseService = franchiseService;
         }
 
-        // GET: api/FranchisesV2
+        /// <summary>
+        /// Get all the franchises
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FranchiseReadDTO>>> GetFranchises()
         {
             return _mapper.Map<List<FranchiseReadDTO>>(await _franchiseService.GetAllFranchisesAsync());
         }
 
-        // GET: api/FranchisesV2/5
+        /// <summary>
+        /// Get a franchise by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<FranchiseReadDTO>> GetFranchise(int id)
         {
@@ -44,7 +55,13 @@ namespace Module3WebApi.Controllers
             }
             return _mapper.Map<FranchiseReadDTO>(franchise);
         }
-        [HttpGet("{id}/character")]
+
+        /// <summary>
+        /// Get all movies in a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}/movies")]
         public async Task<ActionResult<IEnumerable<FranchiseReadDTO>>> GetMoviesInAFranchise(int id)
         {
             Franchise moviesInFranchise = (Franchise)await _franchiseService.GetAllMoviesInFranchiseAsync(id);
@@ -57,8 +74,12 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<List<FranchiseReadDTO>>(moviesInFranchise);
         }
 
-        // PUT: api/FranchisesV2/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dtoFranchise"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFranchise(int id, FranchiseUpdateDTO dtoFranchise)
         {
@@ -76,8 +97,11 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/FranchisesV2
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a new franchise
+        /// </summary>
+        /// <param name="dtoFranchise"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Franchise>> PostFranchise(FranchiseCreateDTO dtoFranchise)
         {
@@ -87,7 +111,11 @@ namespace Module3WebApi.Controllers
             return CreatedAtAction("GetFranchise", new { id = domainFranchise.Id }, _mapper.Map<FranchiseReadDTO>(domainFranchise));
         }
 
-        // DELETE: api/FranchisesV2/5
+        /// <summary>
+        /// Delete a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFranchise(int id)
         {
@@ -98,7 +126,13 @@ namespace Module3WebApi.Controllers
             await _franchiseService.DeleteFranchiseAsync(id);
             return NoContent();
         }
-        // PUT: api/FranchiseV2/movies
+        
+        /// <summary>
+        /// Update movies in a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movies"></param>
+        /// <returns></returns>
         [HttpPut("{id}/movies")]
         public async Task<IActionResult> UpdateMoviesInFranchise(int id, List<int> movies)
         {

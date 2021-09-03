@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,9 @@ namespace Module3WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class CharactersV2Controller : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -25,14 +29,21 @@ namespace Module3WebApi.Controllers
             _characterService = characterService;
         }
 
-        // GET: api/CharactersV2
+        /// <summary>
+        /// Get all the characters
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharacters()
         {
             return _mapper.Map<List<CharacterReadDTO>>(await _characterService.GetAllCharactersAsync());
         }
 
-        // GET: api/CharactersV2/5
+        /// <summary>
+        /// Get a character by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CharacterReadDTO>> GetCharacter(int id)
         {
@@ -45,8 +56,12 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<CharacterReadDTO>(character);
         }
 
-        // PUT: api/CharactersV2/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a character
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dtoCharacter"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCharacter(int id, CharacterUpdateDTO dtoCharacter)
         {
@@ -66,8 +81,11 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/CharactersV2
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a new character
+        /// </summary>
+        /// <param name="dtoCharacter"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Character>> PostCharacter(CharacterCreateDTO dtoCharacter)
         {
@@ -77,7 +95,11 @@ namespace Module3WebApi.Controllers
             return CreatedAtAction("GetCharacter", new { id = domainCharacter.Id }, _mapper.Map<CharacterReadDTO>(domainCharacter));
         }
 
-        // DELETE: api/CharactersV2/5
+        /// <summary>
+        /// Delete a character
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCharacter(int id)
         {

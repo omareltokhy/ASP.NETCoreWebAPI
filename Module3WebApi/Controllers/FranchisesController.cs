@@ -30,14 +30,21 @@ namespace Module3WebApi.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Franchises
+        /// <summary>
+        /// Get all the franchises
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FranchiseReadDTO>>> GetFranchises()
         {
             return _mapper.Map<List<FranchiseReadDTO>>(await _context.Franchises.ToListAsync());
         }
 
-        // GET: api/Franchises/5
+        /// <summary>
+        /// Get a franchise by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<FranchiseReadDTO>> GetFranchise(int id)
         {
@@ -51,6 +58,11 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<FranchiseReadDTO>(franchise);
         }
 
+        /// <summary>
+        /// Get all movies in a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/movie")]
         public async Task<ActionResult<IEnumerable<MovieReadDTO>>> GetMoviesInAFranchise(int id)
         {
@@ -66,6 +78,11 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<List<MovieReadDTO>>(moviesInFranchise.Movies);
         }
 
+        /// <summary>
+        /// Get all characters in a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/characters")]
         public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharactersInAFranchise(int id)
         {
@@ -85,8 +102,12 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<List<CharacterReadDTO>>(charactersInFranchise.Characters);  
         }
 
-        // PUT: api/Franchises/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="franchise"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFranchise(int id, FranchiseUpdateDTO franchise)
         {
@@ -116,6 +137,12 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update movies in a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movies"></param>
+        /// <returns></returns>
         [HttpPut("{id}/updateMovies")]
         public async Task<IActionResult> UpdateFranchiseMovies(int id, List<int> movies)
         {
@@ -124,14 +151,11 @@ namespace Module3WebApi.Controllers
                 return NotFound();
             }
 
-            // May want to place this in a service - controller is getting bloated
             Franchise franchiseToUpdateMovies = await _context.Franchises
                 .Include(c => c.Movies)
                 .Where(c => c.Id == id)
                 .FirstAsync();
 
-            // Loop through certificates, try and assign to coach
-            // Trying to see if there is a nicer way of doing this, dont like the multiple calls
             List<Movie> movs = new();
             foreach (int movId in movies)
             {
@@ -154,8 +178,11 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Franchises
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a new franchise
+        /// </summary>
+        /// <param name="dtoFranchise"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Franchise>> PostFranchise(FranchiseCreateDTO dtoFranchise)
         {
@@ -165,7 +192,11 @@ namespace Module3WebApi.Controllers
             return CreatedAtAction("GetFranchise", new { id = domainFranchise.Id }, dtoFranchise);
         }
 
-        // DELETE: api/Franchises/5
+        /// <summary>
+        /// Delete a franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFranchise(int id)
         {

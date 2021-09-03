@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Module3WebApi.Model;
+using Module3WebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,9 @@ namespace Module3WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<IFranchiseService, FranchiseService>();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<MoviesDbContext>(options =>

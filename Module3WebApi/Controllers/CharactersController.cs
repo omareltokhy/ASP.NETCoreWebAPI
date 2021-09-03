@@ -28,14 +28,21 @@ namespace Module3WebApi.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Characters
+        /// <summary>
+        /// Get all the characters
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CharacterReadDTO>>> GetCharacters()
         {
             return _mapper.Map<List<CharacterReadDTO>>(await _context.Characters.ToListAsync());
         }
 
-        // GET: api/Characters/5
+        /// <summary>
+        /// Get a character by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CharacterReadDTO>> GetCharacter(int id)
         {
@@ -49,8 +56,12 @@ namespace Module3WebApi.Controllers
             return _mapper.Map<CharacterReadDTO>(character);
         }
 
-        // PUT: api/Characters/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a character
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="character"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCharacter(int id, CharacterUpdateDTO character)
         {
@@ -80,8 +91,11 @@ namespace Module3WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Characters
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a character
+        /// </summary>
+        /// <param name="dtoCharacter"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Character>> PostCharacter(CharacterCreateDTO dtoCharacter)
         {
@@ -92,7 +106,11 @@ namespace Module3WebApi.Controllers
             return CreatedAtAction("GetCharacter", new { id = domainCharacter.Id }, domainCharacter);
         }
 
-        // DELETE: api/Characters/5
+        /// <summary>
+        /// Delete a character
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCharacter(int id)
         {
